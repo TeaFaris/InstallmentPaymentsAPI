@@ -1,7 +1,7 @@
 ﻿namespace InstallmentPaymentsAPI.Services
 {
-	public interface ISmsService
+	public interface ISmsService // We don't care about respose, this service only for sending
 	{
-		void SendSMS(string PhoneNumber, string Message);
+		Task SendSMS(string PhoneNumber, string Message);
 	}
 }

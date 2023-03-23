@@ -1,5 +1,6 @@
 using InstallmentPaymentsAPI.Configs;
 using InstallmentPaymentsAPI.Data;
+using InstallmentPaymentsAPI.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace InstallmentPaymentsAPI
@@ -22,6 +23,8 @@ namespace InstallmentPaymentsAPI
 
 			var OsonSMSConfig = Builder.Configuration.GetSection(nameof(OsonSMSOptions));
 			Builder.Services.Configure<OsonSMSOptions>(OsonSMSConfig);
+
+			Builder.Services.AddScoped<ISmsService, OsonSmsService>();
 
 			var App = Builder.Build();
 
