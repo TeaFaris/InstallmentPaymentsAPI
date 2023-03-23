@@ -9,18 +9,17 @@ namespace InstallmentPaymentsAPI.Models
     {
         [Key]
         public uint ID { get; set; }
-		[Required(AllowEmptyStrings = false, ErrorMessage = "Название не может быть пустым.")]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Name is required")]
 		[DataType(DataType.Text)]
 		[DisplayName("Название")]
 		public string Name { get; set; }
-        public List<Product> Products { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Installment percentage is required")]
         [DisplayName("Процент рассрочки")]
         public decimal InstallmentPercentage { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Installment minimum range is required")]
 		[DisplayName("Минимальный диапазон рассрочки в месяцах")]
 		public uint InstallmentRangeMin { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Installment maximum range is required")]
 		[DisplayName("Максимальный диапазон рассрочки в месяцах")]
 		public uint InstallmentRangeMax { get; set; }
 	}
