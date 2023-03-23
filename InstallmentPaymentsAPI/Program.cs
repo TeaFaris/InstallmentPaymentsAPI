@@ -1,3 +1,4 @@
+using InstallmentPaymentsAPI.Configs;
 using InstallmentPaymentsAPI.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,9 @@ namespace InstallmentPaymentsAPI
 
 			var ConnectionString = Builder.Configuration.GetConnectionString("PostgreSQLConnection");
 			Builder.Services.AddDbContext<APIContext>(Options => Options.UseNpgsql(ConnectionString));
+
+			var OsonSMSConfig = Builder.Configuration.GetSection(nameof(OsonSMSOptions));
+			Builder.Services.Configure<OsonSMSOptions>(OsonSMSConfig);
 
 			var App = Builder.Build();
 
