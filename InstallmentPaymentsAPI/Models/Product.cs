@@ -2,7 +2,6 @@
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InstallmentPaymentsAPI.Models
 {
@@ -10,17 +9,16 @@ namespace InstallmentPaymentsAPI.Models
 	{
 		[Key]
 		public uint ID { get; set; }
-		[Required(AllowEmptyStrings = false, ErrorMessage = "Название не может быть пустым.")]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Name is required")]
 		[DataType(DataType.Text)]
 		[DisplayName("Название")]
 		public string Name { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Amount is required")]
 		[DataType(DataType.Currency)]
 		[DisplayName("Цена")]
+		[Range(0, int.MaxValue, ErrorMessage = "Amount must be greater than zero")]
 		public decimal Price { get; set; }
-		[Required]
+		[Required(ErrorMessage = "Category ID is required")]
 		public uint CategoryID { get; set; }
-		[ForeignKey(nameof(CategoryID))]
-		public Category Category { get; set; }
 	}
 }
