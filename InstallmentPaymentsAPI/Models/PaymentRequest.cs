@@ -3,6 +3,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace InstallmentPaymentsAPI.Models
 {
@@ -10,6 +11,8 @@ namespace InstallmentPaymentsAPI.Models
 	{
 		[Required(ErrorMessage = "Product ID is required")]
 		public uint ProductID { get; set; }
+
+		[JsonIgnore]
 		[ForeignKey(nameof(ProductID))]
 		public Product Product { get; set; }
 
@@ -22,7 +25,7 @@ namespace InstallmentPaymentsAPI.Models
 		[Required(ErrorMessage = "Phone number is required")]
 		[DataType(DataType.PhoneNumber)]
 		[DisplayName("Номер телефона")]
-		[RegularExpression(@"/^\+992\d{9}$/", ErrorMessage = "Invalid phone number format")]
+		[Phone]
 		public string PhoneNumber { get; set; }
 
 		[Required(ErrorMessage = "Installment duration is required")]

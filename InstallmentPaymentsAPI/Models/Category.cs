@@ -3,6 +3,7 @@
 using InstallmentPaymentsAPI.Models.NonDB;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace InstallmentPaymentsAPI.Models
 {
@@ -24,6 +25,7 @@ namespace InstallmentPaymentsAPI.Models
 		[DisplayName("Максимальный диапазон рассрочки в месяцах")]
 		public InstallmentRange InstallmentRangeMax { get; set; }
 
+		[JsonIgnore]
 		public List<Product> Products { get; set; }
 	}
 }
