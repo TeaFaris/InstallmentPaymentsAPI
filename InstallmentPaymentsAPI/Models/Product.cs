@@ -3,6 +3,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace InstallmentPaymentsAPI.Models
 {
@@ -22,6 +23,8 @@ namespace InstallmentPaymentsAPI.Models
 		public decimal Price { get; set; }
 		[Required(ErrorMessage = "Category ID is required")]
 		public uint CategoryID { get; set; }
+
+		[JsonIgnore]
 		[ForeignKey(nameof(CategoryID))]
 		public Category Category { get; set; }
 	}
