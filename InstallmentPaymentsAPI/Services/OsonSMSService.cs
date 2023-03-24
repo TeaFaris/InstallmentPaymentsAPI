@@ -12,6 +12,7 @@ namespace InstallmentPaymentsAPI.Services
 
 		private readonly OsonSMSOptions Options;
 
+		public OsonSmsService() { }
 		public OsonSmsService(OsonSMSOptions Options)
 		{
 			this.Options = Options;

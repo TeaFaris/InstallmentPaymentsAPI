@@ -1,5 +1,6 @@
 ﻿#nullable disable
 
+using InstallmentPaymentsAPI.Models.NonDB;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -18,9 +19,11 @@ namespace InstallmentPaymentsAPI.Models
         public decimal InstallmentPercentage { get; set; }
 		[Required(ErrorMessage = "Installment minimum range is required")]
 		[DisplayName("Минимальный диапазон рассрочки в месяцах")]
-		public uint InstallmentRangeMin { get; set; }
+		public InstallmentRange InstallmentRangeMin { get; set; }
 		[Required(ErrorMessage = "Installment maximum range is required")]
 		[DisplayName("Максимальный диапазон рассрочки в месяцах")]
-		public uint InstallmentRangeMax { get; set; }
+		public InstallmentRange InstallmentRangeMax { get; set; }
+
+		public List<Product> Products { get; set; }
 	}
 }
