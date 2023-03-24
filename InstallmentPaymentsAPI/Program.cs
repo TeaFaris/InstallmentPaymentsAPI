@@ -1,3 +1,8 @@
+using InstallmentPaymentsAPI.Configs;
+using InstallmentPaymentsAPI.Data;
+using InstallmentPaymentsAPI.Services;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace InstallmentPaymentsAPI
 {
@@ -5,32 +10,39 @@ namespace InstallmentPaymentsAPI
 	{
 		public static void Main(string[] args)
 		{
-			var builder = WebApplication.CreateBuilder(args);
+			var Builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
 
-			builder.Services.AddControllers();
+			Builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddEndpointsApiExplorer();
-			builder.Services.AddSwaggerGen();
-
-			var app = builder.Build();
-
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
+			Builder.Services.AddEndpointsApiExplorer();
+			Builder.Services.AddSwaggerGen(Options =>
 			{
-				app.UseSwagger();
-				app.UseSwaggerUI();
-			}
+				var XmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+				Options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, XmlFilename));
+			});
 
-			app.UseHttpsRedirection();
+			var ConnectionString = Builder.Configuration.GetConnectionString("PostgreSQLConnection");
+			Builder.Services.AddDbContext<APIContext>(Options => Options.UseNpgsql(ConnectionString));
 
-			app.UseAuthorization();
+			var OsonSMSConfig = Builder.Configuration.GetSection(nameof(OsonSMSOptions));
+			Builder.Services.Configure<OsonSMSOptions>(OsonSMSConfig);
 
+			Builder.Services.AddScoped<ISmsService, OsonSmsService>();
 
-			app.MapControllers();
+			var App = Builder.Build();
 
-			app.Run();
+			App.UseSwagger();
+			App.UseSwaggerUI();
+
+			App.UseHttpsRedirection();
+
+			App.UseAuthorization();
+
+			App.MapControllers();
+
+			App.Run();
 		}
 	}
 }
