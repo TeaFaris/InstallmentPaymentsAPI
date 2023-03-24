@@ -20,13 +20,26 @@ namespace InstallmentPaymentsAPI.Controllers
 			this.SmsService = SmsService;
 		}
 
+		/// <summary>
+		/// This method charges a payment with an installment plan and returns the resulting payment record.
+		/// The method expects an HTTP POST request with a <see cref="PaymentRequest"/> object in the request body.
+		/// </summary>
+		/// <param name="Payment">The <see cref="PaymentRequest"/> object containing the payment information.</param>
+		/// <returns>The created <see cref="InstallmentPayment"/> object.</returns>
+		/// <response code="200">The payment was successfully charged and a payment record was created.</response>
+		/// <response code="400">The request payload was invalid or the installment duration was outside of the allowed range.</response>
+		/// <response code="404">The specified ProductID was not found in the database.</response>
 		[HttpPost]
+		[ProducesResponseType(StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+
+		[Route(nameof(ChargePayment))]
 		public async Task<IActionResult> ChargePayment([FromBody] PaymentRequest Payment)
 		{
 			try
 			{
 				// Validation
-
 				if (!ModelState.IsValid)
 					return BadRequest(ModelState);
 

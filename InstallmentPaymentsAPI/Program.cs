@@ -2,6 +2,7 @@ using InstallmentPaymentsAPI.Configs;
 using InstallmentPaymentsAPI.Data;
 using InstallmentPaymentsAPI.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace InstallmentPaymentsAPI
 {
@@ -16,7 +17,11 @@ namespace InstallmentPaymentsAPI
 			Builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			Builder.Services.AddEndpointsApiExplorer();
-			Builder.Services.AddSwaggerGen();
+			Builder.Services.AddSwaggerGen(Options =>
+			{
+				var XmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+				Options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, XmlFilename));
+			});
 
 			var ConnectionString = Builder.Configuration.GetConnectionString("PostgreSQLConnection");
 			Builder.Services.AddDbContext<APIContext>(Options => Options.UseNpgsql(ConnectionString));
@@ -28,12 +33,8 @@ namespace InstallmentPaymentsAPI
 
 			var App = Builder.Build();
 
-			// Configure the HTTP request pipeline.
-			if (App.Environment.IsDevelopment())
-			{
-				App.UseSwagger();
-				App.UseSwaggerUI();
-			}
+			App.UseSwagger();
+			App.UseSwaggerUI();
 
 			App.UseHttpsRedirection();
 
