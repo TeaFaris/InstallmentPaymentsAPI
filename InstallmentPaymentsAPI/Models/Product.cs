@@ -2,12 +2,14 @@
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InstallmentPaymentsAPI.Models
 {
 	public class Product
 	{
 		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public uint ID { get; set; }
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Name is required")]
 		[DataType(DataType.Text)]
@@ -20,5 +22,7 @@ namespace InstallmentPaymentsAPI.Models
 		public decimal Price { get; set; }
 		[Required(ErrorMessage = "Category ID is required")]
 		public uint CategoryID { get; set; }
+		[ForeignKey(nameof(CategoryID))]
+		public Category Category { get; set; }
 	}
 }
