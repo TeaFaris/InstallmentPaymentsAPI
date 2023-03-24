@@ -1,5 +1,6 @@
 ﻿#nullable disable
 
+using InstallmentPaymentsAPI.Models.NonDB;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -30,7 +31,7 @@ namespace InstallmentPaymentsAPI.Models
 
 		[Required(ErrorMessage = "Installment duration is required")]
 		[DisplayName("Продолжительность рассрочки в месяцах")]
-		[Range(3, 18, ErrorMessage = "Installment duration must be between 3 and 18 months")]
+		[Range((uint)InstallmentRange.ThreeMonth, (uint)InstallmentRange.TwentyFourMonth, ErrorMessage = "Installment duration must be between 3 and 18 months")]
 		public uint InstallmentDuration { get; set; }
 	}
 }
